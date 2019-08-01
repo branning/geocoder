@@ -1,37 +1,31 @@
-## Welcome to GitHub Pages
+## Geocoder Proxy
 
-You can use the [editor on GitHub](https://github.com/branning/geocoder/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+A RESTful web service in Python that gives latitude and longitude coordinates for addresses. The service itself does not have any geolocation smarts, but instead it serves as an interface to other services that do.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Reverse Geocoding Backends
 
-### Markdown
+These services are supported:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- [Google Maps Places API](https://developers.google.com/maps/documentation/geocoding/start)
+- [HERE Geocoder API](https://developer.here.com/documentation/geocoder/topics/quick-start.html)
 
-```markdown
-Syntax highlighted code block
+### Configuration
 
-# Header 1
-## Header 2
-### Header 3
+This project follows the configuration practices of [12 Factor Apps](https://12factor.net/), and stores its configuration in the environment. For instance, the API keys for the geocoder backends are provided to the application this way.
 
-- Bulleted
-- List
+The [envparse](https://github.com/rconradharris/envparse) package is used to aid this process, and allows loading envronment variables from a convenient `.env` file.
 
-1. Numbered
-2. List
+### API Server
 
-**Bold** and _Italic_ and `Code` text
+The RESTful endpoints are defined in [OpenAPI / Swagger 2.0](https://swagger.io/solutions/getting-started-with-oas/) format, and can be found in [swagger/geocoder.yaml](./swagger/geocoder.yaml). Clients for the API can be generated using that file, and API documentation is also generated from it.
 
-[Link](url) and ![Image](src)
-```
+### Testing
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Unit tests are written using [pytest](https://docs.pytest.org/en/latest/).
 
-### Jekyll Themes
+Integration tests of the running API server use the [HTTPie](https://httpie.org/) client. You could also use the example cURL commands from the Swagger documentation.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/branning/geocoder/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Security
 
-### Support or Contact
+The server will refuse to run without HTTPS. Self-signed certificates are generated automatically using [openssl](https://letsencrypt.org/docs/certificates-for-localhost/)
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
